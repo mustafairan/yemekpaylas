@@ -73,9 +73,10 @@ function buildForm()
         $recipeText = mysql_fetch_array($result);
 
 
-        echo "<br><br><br><br>";
-
-        echo $recipeText['recipeText'];
+        echo '<br><br><br><br>
+<table border="1px"  style="width=100%" > <tr><td>'.
+            $recipeText['recipeText']
+        .'</td></tr></table>';
 
         echo '
     <form method="post" action="#">
@@ -84,10 +85,8 @@ function buildForm()
 
     <textarea name="commentText" >
     </textarea>
-
     <input type="hidden" name="recipeID" value="' . $eachID . '">
-          <input type="checkbox" name="fav" >
-
+    Beğen<input type="checkbox" name="fav" >
     <input type="submit" name="submit" value="Tamam">
 
 
@@ -110,7 +109,7 @@ function buildForm()
             echo "<b>". $userNameArray['userName']. " </b> demis ki:<br>";
 
             echo '
-            <table border=/"1/"  style=/"width:100%/">
+            <table border="1"  style="width=100%">
   <tr>
     <td>'. $commentArray['commentText'] .'</td>
   </tr>
@@ -145,8 +144,6 @@ favIt($_POST['recipeID']);
 //en son eklenen 10 tarif //ekleyen ismi -text - fav sayısı
 
 //yorum yapma imkanı
-
-// This results in an error.
 
 echo "anasayfa";
 buildForm();
