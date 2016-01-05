@@ -1,11 +1,5 @@
 <?php
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'YemekPaylas');
-define('DB_USER','root');
-define('DB_PASSWORD','damniforgot');
 
-$con=mysql_connect(DB_HOST,DB_USER,DB_PASSWORD) or die("Failed to connect to MySQL: " . mysql_error());
-$db=mysql_select_db(DB_NAME,$con) or die("Failed to connect to MySQL: " . mysql_error());
 /**
  * Created by PhpStorm.
  * User: mnc
@@ -20,13 +14,19 @@ function printRecipes(){
     $result=mysql_query($query);
 
     while($recipeArray=mysql_fetch_array($result)){
+
+        $query3=   "select userName from Users where userID=".$recipeArray['whoAdded'];
+        $result2=mysql_query($query3);
+        $usersArray=mysql_fetch_array($result2);
+
         echo '<br>';
         echo '<table border="1"  style="width=100%"> <tr> <td>';
         echo '<form method="post" action="#"> ';
         echo 'Tarif idsi: '.$recipeArray['recipeID'].
              '<br>tarif: '. $recipeArray['recipeText'].
              '<br>ekleyen: ' .$recipeArray['whoAdded'].
-             '<br>beğenenler: ' .$recipeArray['whoFaved'];
+             '<br>ekleyen kullanıcı ismi: ' .$usersArray['userName'].
+             '<br>beğenen kullanıcıların idleri: ' .$recipeArray['whoFaved'];
         echo '<input type="hidden" name="recipeID" value="' .$recipeArray['recipeID'].'">' ;
         echo '<input type="submit" name="submit" value="sil">';
         echo '</form>';
@@ -47,12 +47,16 @@ function printComments(){
     $result=mysql_query($query);
 
     while($commentArray=mysql_fetch_array($result)){
+        $query3=   "select userName from Users where userID=".$commentArray['whoWrote'];
+        $result2=mysql_query($query3);
+        $usersArray=mysql_fetch_array($result2);
         echo '<br>';
         echo '<table border="1"  style="width=100%"> <tr> <td>';
         echo '<form method="post" action="#"> ';
         echo 'Yorum idsi: '.$commentArray['commentID'].
-            '<br>tarif: '. $commentArray['commentText'].
-            '<br>ekleyen: ' .$commentArray['whoWrote'].
+            '<br>yorum: '. $commentArray['commentText'].
+            '<br>ekleyen idsi: ' .$commentArray['whoWrote'].
+            '<br>ekleyen kullanıcı adı: ' .$usersArray['userName'].
             '<br>Hangi Tarif idsi için: ' .$commentArray['forRecipeID'];
         echo '<input type="hidden" name="commentID" value="' .$commentArray['commentID'].'">' ;
         echo '<input type="submit" name="submit" value="sil">';
@@ -69,10 +73,4 @@ function printComments(){
 
 }
 
-
-
-
-
-//printRecipes();
-//printComments();
 ?>

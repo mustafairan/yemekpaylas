@@ -10,34 +10,29 @@ $db=mysql_select_db(DB_NAME,$con) or die("Failed to connect to MySQL: " . mysql_
 $ID = $_POST['user'];
 $Password = $_POST['pass'];
 */
-function SignIn()
+//session_start();  //starting the session for user profile page
+if($_POST)
 {
+	session_start();
+	ob_start();
+	$kadi=$_POST['user'];
+	$sifre=$_POST['pass'];
+	$query = mysql_query("SELECT *  FROM Users where userName = '".$_POST['user']."' AND pass = '".$_POST['pass']."'") or die(mysql_error());
+	$row = mysql_fetch_array($query);
+	if($row['userName']==$kadi && $row['pass']==$sifre) {
 
-session_start();   //starting the session for user profile page
-if(!empty($_POST['user']))   //checking the 'user' name which is from Sign-In.html, is it empty or have some text
-{
-	$query = mysql_query("SELECT *  FROM Users where userName = '$_POST[user]' AND pass = '$_POST[pass]'") or die(mysql_error());
-	$row = mysql_fetch_array($query) or die(mysql_error());
-	//print_r($row);
-	if(!empty($row['userName']) AND !empty($row['pass']))
-	{
 		$_SESSION['userName'] = $row['userName'];
-		$_SESSION['userID']=$row['userID'];
+		$_SESSION['userID'] = $row['userID'];
 		//echo $_SESSION['userID'];
 		echo "SUCCESSFULLY LOGIN TO USER PROFILE PAGE...";
-		//header('Location: http://localhost/agproje/index.php');
-
+		header('Location: http://localhost/agproje/index.php');
 	}
 	else
 	{
-		echo "SORRY... YOU ENTERD WRONG ID AND PASSWORD... PLEASE RETRY...";
-	}
-}
-}
-if(isset($_POST['submit']))
-{
-	SignIn();
 
+		echo "Kullanıcı adı ya da parolanız yanlış";
+		echo "<br><a href='Sign-In.html'>geri dön</a>";
+	}
 }
 
 ?>

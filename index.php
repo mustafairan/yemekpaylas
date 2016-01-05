@@ -24,6 +24,16 @@ define('DB_PASSWORD','damniforgot');
 
 $con=mysql_connect(DB_HOST,DB_USER,DB_PASSWORD) or die("Failed to connect to MySQL: " . mysql_error());
 $db=mysql_select_db(DB_NAME,$con) or die("Failed to connect to MySQL: " . mysql_error());
+function isLogin(){
+    if (!isset($_SESSION['userID']))
+    {
+
+        header('Location: http://localhost/agproje/Sign-In.html');
+    }
+
+
+}
+
 function favNumber($recipeID){
 
     $query1="select whoFaved from Recipes where recipeID= ". $recipeID ;
@@ -140,19 +150,10 @@ favIt($_POST['recipeID']);
 
 
 
-//en çok favlanan 10 tarif //ekleyen ismi -text - fav sayısı
-//en son eklenen 10 tarif //ekleyen ismi -text - fav sayısı
-
-//yorum yapma imkanı
-
 echo "anasayfa";
+isLogin();
 buildForm();
-//header('Location: http://localhost/agproje/Sign-In.html');
 
-
-
-//son eklenen tarifleri altına yorum yapılabilecek şekilde bas
-//addComments fonksiyonunu kullan
 
 
 ?>

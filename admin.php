@@ -7,14 +7,19 @@
 <body>
 
 <?php
+define('DB_HOST', 'localhost');
+define('DB_NAME', 'YemekPaylas');
+define('DB_USER','root');
+define('DB_PASSWORD','damniforgot');
+
+$con=mysql_connect(DB_HOST,DB_USER,DB_PASSWORD) or die("Failed to connect to MySQL: " . mysql_error());
+$db=mysql_select_db(DB_NAME,$con) or die("Failed to connect to MySQL: " . mysql_error());
 session_start();
 ob_start();
-/**
- * Created by PhpStorm.
- * User: mnc
- * Date: 1/4/16
- * Time: 9:44 PM
- */
+include ('adminFuncs.php');
+
+printRecipes();
+printComments();
 ?>
 </body>
 </html>
